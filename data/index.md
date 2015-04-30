@@ -1,4 +1,6 @@
 索引页
 ===
 
-[My todolist](/?name=todo)
+## Paper ##
+* [My todolist](?name=todo)
+* [Idea paper](?name=idea)

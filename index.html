@@ -30,16 +30,46 @@
 					}
 				}
 				return TheValue;
-			} 
+			}
+			function line_code(num){
+				canvas = document.getElementById('line_num_canvas');
+				if (canvas.getContext) {
+					ctx = canvas.getContext('2d');
+				}
+				canvas.width = 70;
+				canvas.height = 28;
+				ctx.font = "16px Arial"; 
+				// 设置对齐方式
+				ctx.textAlign = "right";
+				// 设置填充颜色
+				ctx.fillStyle = "#888888"; 
+				// 设置字体内容，以及在画布上的位置
+				ctx.fillText(num, 65, 21);
+				// 返回图像
+				var image = new Image();
+				return canvas.toDataURL("image/png");
+			}
 			$(document).ready(function(){
 				// 运行代码高亮库
 				hljs.initHighlightingOnLoad();
 				// 设置 Markdown 转换时代码高亮函数
 				marked.setOptions({
-					highlight: function (code) {
+					highlight: function (code,lang) {
 						return hljs.highlightAuto(code).value;
 					}
 				});
+				var renderer = new marked.Renderer();
+				renderer.image = function(href, title, text){
+					return '<div class="img-box"><img src="'+href+'" alt="'+text+'" /></div>';
+				};
+				renderer.link = function(href, title, text){
+					var reg = new RegExp("^[\\w\\-\\:]+$");
+					if(reg.test(href)){
+						return '<a href="index.html?name='+href+'">'+text+'</a>';
+					}else{
+						return '<a href="'+href+'" target="_blank">'+text+'</a>';
+					}
+				};
 				// 分析地址，获取源文件地址
 				var dirurl="data";
 				name = QueryGET("name");
@@ -63,7 +93,7 @@
 					success:function(markdownString){
 						// 将转换好的内容写入页面
 						$("#content").html(function(){
-							return marked(markdownString);
+							return marked(markdownString,{ renderer: renderer });
 						});
 						// 代码高亮加行号
 						$('pre code').each(function(){
@@ -72,15 +102,12 @@
 							for(k in thecode){
 								if(!thecode[k] && k == (thecode.length-1)){}else{
 									m=k+1;
-									code +='<div class="code-line"><div class="line-num">'+(Number(k)+1)+'</div>'+thecode[k]+'</div>';
+									code +='<div class="code-line"><div class="line-num" style="background:url('+line_code(Number(k)+1)+') top right no-repeat;"></div>'+thecode[k]+'</div>';
 								}
 							}
 							$(this).html(code);
 						});
-						// 图片设置外部元素
-						$('#content img').each(function(){
-							$(this).wrap('<div class="img-box"></div>');
-						});
+
 						// 设置页面标题
 						pagetitle=$("#content").find(":header:first").text();
 						if(pagetitle != ""){
@@ -103,14 +130,19 @@
 		</div> <!-- #header End -->
 		<div id="main" class="container">
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-8 col-md-offset-2">
 					<div id="content">
 						Loading……
 					</div>
 				</div>
 			</div>
 		</div><!-- #content End -->
-		
+		<div id="footer">
+			Power by <a href="https://github.com/dmscode/Wiki-in-box">Wiki in box</a>
+		</div> <!-- #footer End -->
+		<div style="display:none">
+			<canvas id="line_num_canvas"></canvas>
+		</div>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="files/js/bootstrap.min.js"></script>
 	</body>

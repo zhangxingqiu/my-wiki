@@ -1,6 +1,10 @@
 My todolist
 ===
 
+## 这两天就做： ##
+
+* 就是这么黑 - 四格漫画生成器
+
 ## 感兴趣的知识点： ##
 
 * Vue.js [http://cn.vuejs.org/](http://cn.vuejs.org/)

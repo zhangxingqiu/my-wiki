@@ -38,3 +38,21 @@ Sublime Text 3
 		"theme": "Flatland Dark.sublime-theme"
 	}
 ```
+
+* **[Seti](https://github.com/ctf0/Seti_ST3)**：一款色彩鲜明的主题，自带各种美丽的小图标，风格和配色我很喜欢，本人的配置文件如下：
+
+```
+	{
+		"Seti_sb_big_padding": true,
+		"Seti_sb_tree_med": true,
+		"Seti_tabs_small": true,
+		"color_scheme": "Packages/Seti_UI/Scheme/Seti.tmTheme",
+		"font_face": "Source Han Sans Light",
+		"font_size": 18,
+		"ignored_packages":
+		[
+			"Vintage"
+		],
+		"theme": "Seti.sublime-theme"
+	}
+```
